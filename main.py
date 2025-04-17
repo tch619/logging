@@ -2,6 +2,7 @@ import os
 import re
 from collections import defaultdict
 
+
 log_levels = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 route_pattern = re.compile(r'(/api/v1/[^\s]+|/admin/[^\s]+)', re.IGNORECASE)
 log_level_pattern = re.compile(r'\b(DEBUG|INFO|WARNING|ERROR|CRITICAL)\b', re.IGNORECASE)
@@ -21,22 +22,18 @@ def parse_logs(log_file):
 
             level_match = log_level_pattern.search(line)
 
-
             if db_query_pattern.search(line):
                 db_queries += 1
                 level = 'DEBUG'
                 route = 'No route'
 
-
             elif level_match:
                 level = level_match.group(0).upper()
-
 
                 if route_match:
                     route = route_match.group(0)
                 else:
                     route = 'No route'
-
 
             route_log_counts[route][level] += 1
 
